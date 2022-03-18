@@ -1,8 +1,7 @@
-const url = 'http://127.0.0.1:3000/api/products';
 const kanapImg = document.querySelector('.item__img')
 var urlParams = new URLSearchParams(location.search);
 let kanapIndex = urlParams.get('id');
-
+const url = `http://127.0.1:3000/api/products/${kanapIndex}`;
 fetch(url)
     .then(function (response) {
 
@@ -10,45 +9,28 @@ fetch(url)
     })
 
     .then(function (data) {
-        // descriptionKanap.innerText = data[kanapIndex].description
-        const kanap = getKanapByID(data)
+        kanapImg.innerHTML = ""
         let descriptionKanap = document.getElementById('description');
         let priceKanap = document.getElementById('price');
         let bigKanapImg = document.createElement('img');
-        bigKanapImg.src = kanap.imageUrl;
-        kanapImg.appendChild(bigKanapImg)
-        descriptionKanap.innerText = kanap.description;
-        priceKanap.innerText = kanap.price
-        
-    })
-    .catch(function () {
-
-    })
-
-var getKanapByID = function (kanapData) {
-    kanapImg.innerHTML=""
-    for (let i = 0; i < kanapData.length; i++) {
-        if (kanapData[i]._id == kanapIndex) {
-            return kanapData[i]
+        let titleKanap = document.querySelector('title');
+        let titleH1Kanap = document.querySelector('h1');
+        titleKanap.innerText = data.name;
+        titleH1Kanap.innerText = data.name;
+        bigKanapImg.src = data.imageUrl;
+        kanapImg.appendChild(bigKanapImg);
+        descriptionKanap.innerText = data.description;
+        priceKanap.innerText = data.price;
+        let kanapColor = '<option value="">--SVP, choisissez une couleur --</option>';
+        for (color of data.colors) {
+            kanapColor += `<option value="${color}">${color}</option>`;
         }
+        document.getElementById('colors').innerHTML = kanapColor;
 
-        
-    }
-
-
-    /*let i = -1
-    console.log('test')
-    do {
-        i++
-        let currentID = kanapData[i]._id
-        console.log("i=" + i)
-        console.log(currentID != kanapIndex)
-
-    }
-    while (i < kanapData.length);
-    console.log('test')
-    //console.log(kanapData[i].name)*/
-}
-
-
+    })
+    .catch(function (error) {
+        console.log(error);
+        console.log('error API');
+        alert('Le serveur est indisponible pour le moment');
+    })
 

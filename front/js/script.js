@@ -12,8 +12,8 @@ fetch(url)
         // console.log(data);
         kanapShowAll(data)
     })
-    .catch(function () {
-
+    .catch(function (error) {
+console.log(error)
 
     })
 
