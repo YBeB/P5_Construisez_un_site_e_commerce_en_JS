@@ -31,12 +31,13 @@ fetch(url)
 
         const colorValue = () => {
             const inputValueColor = document.getElementById("colors").value;
-            
-          }
-        const itemQuantity = () =>{ const inputValueQuantity=document.getElementById("quantity").value;
-       
-    }
-        document.getElementById('addToCart').addEventListener('click', ajoutPanier);
+
+        }
+        const itemQuantity = () => {
+            const inputValueQuantity = document.getElementById("quantity").value;
+
+        }
+        document.getElementById('addToCart').addEventListener('click', ajoutPanier());
 
 
         function ajoutPanier() {
@@ -47,40 +48,42 @@ fetch(url)
             }
             else {
                 //Si la couleur est vide 
-                if (colorValue == "") {
-                    alert('La couleur doit être choisis')
+                if (colorValue == "--SVP, choisissez une couleur --") {
+                    alert('La couleur doit être choisis');
+                    
                 }
+                else{
                 //Dans le cas contraire si tout fonctionne , récupérer du localStorage le produit dont on a besoin
-                else {
-                    var jsonString = localStorage.getItem("productCart");
-                    var retrievedObject = JSON.parse(jsonString);
-                    // Si le tableau n'est pas vide , le vidé;
-                    if (!retrievedObject || retrievedObject == 0) {
-                        retrievedObject = [];
-                    }
-                    // On créer un tableau vide
-                    let producToSave = [];
-                    for (let produit in retrievedObject) {
-                        //si le produit
-                        if ((produit.id == productCart.id) && (produit.color == productCart.color)) {
-                            productCart.quantity += product.quantity;
-                            producToSave.push(productCart);
-                        }
-                        else {
-                            producToSave.push(producToSave);
-                            producToSave.push(produit);
-
-                        }
-                    }
-                    localStorage.setItem("productCart", JSON.stringify(producToSave));
+                var jsonString = localStorage.getItem("productCart");
+                var retrievedObject = JSON.parse(jsonString);
+                // Si le tableau n'est pas vide , le vidé;
+                if (!retrievedObject || retrievedObject == 0) {
+                    retrievedObject = [];
                 }
-
+                // On créer un tableau vide
+                let producToSave = [];
+                for (let produit in retrievedObject) {
+                    //si le produit
+                    if ((produit.id == productCart.id) && (produit.color == productCart.color)) {
+                        productCart.quantity += product.quantity;
+                        producToSave.push(productCart);
+                    }
+                    else {
+                        
+                    producToSave.push(produit);
+                    
+                    }
+                }
+                localStorage.setItem("productCart", JSON.stringify(producToSave));
+               
             }
         }
+    }
+})
 
 
+    
 
-    })
     .catch(function (error) {
         console.log(error);
         console.log('error API');
