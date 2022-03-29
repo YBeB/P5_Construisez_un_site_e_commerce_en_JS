@@ -29,26 +29,22 @@ fetch(url)
         document.getElementById('colors').innerHTML = kanapColor;
 
 
-        const colorValue = () => {
-            const inputValueColor = document.getElementById("colors").value;
-
-        }
-        const itemQuantity = () => {
-            const inputValueQuantity = document.getElementById("quantity").value;
-
-        }
-        document.getElementById('addToCart').addEventListener('click', ajoutPanier());
+        document.getElementById('addToCart').addEventListener('click', ajoutPanier);
 
 
         function ajoutPanier() {
+            
+        let colorValue =document.getElementById("colors").value;
+        let itemQuantity =document.getElementById("quantity").value;
             var productCart = { id: data._id, color: colorValue, quantity: itemQuantity };
             //Si la quantité est inférieur a zéro
-            if (quantity <= 0) {
+            console.log(productCart)
+            if (itemQuantity <= 0) {
                 alert('La quantité dois être strictement supérieur a zéro');
             }
             else {
                 //Si la couleur est vide 
-                if (colorValue == "--SVP, choisissez une couleur --") {
+                if (colorValue == "") {
                     alert('La couleur doit être choisis');
                     
                 }
@@ -57,7 +53,7 @@ fetch(url)
                 var jsonString = localStorage.getItem("productCart");
                 var retrievedObject = JSON.parse(jsonString);
                 // Si le tableau n'est pas vide , le vidé;
-                if (!retrievedObject || retrievedObject == 0) {
+                if (!retrievedObject || retrievedObject === 0) {
                     retrievedObject = [];
                 }
                 // On créer un tableau vide
@@ -67,6 +63,7 @@ fetch(url)
                     if ((produit.id == productCart.id) && (produit.color == productCart.color)) {
                         productCart.quantity += product.quantity;
                         producToSave.push(productCart);
+                        
                     }
                     else {
                         
@@ -75,7 +72,7 @@ fetch(url)
                     }
                 }
                 localStorage.setItem("productCart", JSON.stringify(producToSave));
-               
+                
             }
         }
     }
