@@ -38,7 +38,7 @@ fetch(url)
         let itemQuantity =document.getElementById("quantity").value;
             var productCart = { id: data._id, color: colorValue, quantity: itemQuantity };
             //Si la quantité est inférieur a zéro
-            console.log(productCart)
+            
             if (itemQuantity <= 0) {
                 alert('La quantité dois être strictement supérieur a zéro');
             }
@@ -61,17 +61,18 @@ fetch(url)
                 for (let produit in retrievedObject) {
                     //si le produit
                     if ((produit.id == productCart.id) && (produit.color == productCart.color)) {
-                        productCart.quantity += product.quantity;
+                        productCart.quantity += produit.quantity;
                         producToSave.push(productCart);
                         
                     }
                     else {
-                        
+                    
                     producToSave.push(produit);
                     
                     }
                 }
                 localStorage.setItem("productCart", JSON.stringify(producToSave));
+                
                 
             }
         }
