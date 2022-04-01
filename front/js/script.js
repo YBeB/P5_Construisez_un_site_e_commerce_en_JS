@@ -30,7 +30,7 @@ var kanapShowAll = function (tableauKanap) {
         kanapImg.src = tableauKanap[i].imageUrl;
         kanapImg.alt = tableauKanap[i].altTxt;
         items.appendChild(kanapHomeLink);
-        kanapHomeLink.href = `http://127.0.0.1:5500/front/html/product.html?id=${tableauKanap[i]._id}`
+        kanapHomeLink.href = `/front/html/product.html?id=${tableauKanap[i]._id}`
         kanapHomeLink.appendChild(kanapHomeArticle);
         kanapHomeArticle.appendChild(kanapImg);
         kanapHomeArticle.appendChild(kanapH3);

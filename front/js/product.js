@@ -33,12 +33,12 @@ fetch(url)
 
 
         function ajoutPanier() {
-            
-        let colorValue =document.getElementById("colors").value;
-        let itemQuantity =document.getElementById("quantity").value;
+
+            let colorValue = document.getElementById("colors").value;
+            let itemQuantity = document.getElementById("quantity").value;
             var productCart = { id: data._id, color: colorValue, quantity: itemQuantity };
             //Si la quantité est inférieur a zéro
-            
+
             if (itemQuantity <= 0) {
                 alert('La quantité dois être strictement supérieur a zéro');
             }
@@ -46,41 +46,53 @@ fetch(url)
                 //Si la couleur est vide 
                 if (colorValue == "") {
                     alert('La couleur doit être choisis');
+
+                }
+                else {
+
+                    //Dans le cas contraire si tout fonctionne , récupérer du localStorage le produit dont on a besoin
+                    var jsonString = localStorage.getItem("productCart");
+                    var retrievedObject = JSON.parse(jsonString);
+                    // Si le tableau n'est pas vide , le vidé;
+                    if (!retrievedObject || retrievedObject === 0) {
+                        retrievedObject = [];
+
+                    }
+                    // On créer un tableau vide
+                    let producToSave = [];
+                    let retrievedObjectNumbers=Object.keys(retrievedObject).length;
+                    // Si retrievedObjectNumbers est inferieur a zero 
+                    if (retrievedObjectNumbers>0) {
                     
-                }
-                else{
-                //Dans le cas contraire si tout fonctionne , récupérer du localStorage le produit dont on a besoin
-                var jsonString = localStorage.getItem("productCart");
-                var retrievedObject = JSON.parse(jsonString);
-                // Si le tableau n'est pas vide , le vidé;
-                if (!retrievedObject || retrievedObject === 0) {
-                    retrievedObject = [];
-                }
-                // On créer un tableau vide
-                let producToSave = [];
-                for (let produit in retrievedObject) {
-                    //si le produit
-                    if ((produit.id == productCart.id) && (produit.color == productCart.color)) {
-                        productCart.quantity += produit.quantity;
-                        producToSave.push(productCart);
+                        for (let i = 0; i < retrievedObjectNumbers; i++) {
+                            let produit=retrievedObject[i]
+                            //si le produit
+                           
+                            if ((produit.id == productCart.id) && (produit.color == productCart.color)) {
+                                productCart.quantity=parseInt(productCart.quantity) + parseInt(produit.quantity);
+                                producToSave.push(productCart);
+                                console.log("cumul du montant");
+                                console.log(produit)
                         
-                    }
-                    else {
-                    
-                    producToSave.push(produit);
-                    
-                    }
+                            }
+                            else {
+
+                                producToSave.push(produit);
+
+                            }
+                        }
+
+                    }else{producToSave.push(productCart)};
+                    localStorage.setItem("productCart", JSON.stringify(producToSave));
+
+
                 }
-                localStorage.setItem("productCart", JSON.stringify(producToSave));
-                
-                
             }
         }
-    }
-})
+    })
 
 
-    
+
 
     .catch(function (error) {
         console.log(error);
