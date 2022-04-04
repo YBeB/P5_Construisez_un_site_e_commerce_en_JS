@@ -71,16 +71,16 @@ fetch(url)
                             if ((produit.id == productCart.id) && (produit.color == productCart.color)) {
                                 productCart.quantity=parseInt(productCart.quantity) + parseInt(produit.quantity);
                                 producToSave.push(productCart);
-                                console.log("cumul du montant");
-                                console.log(produit)
                         
                             }
                             else {
 
                                 producToSave.push(produit);
-
+                                
                             }
+
                         }
+
 
                     }else{producToSave.push(productCart)};
                     localStorage.setItem("productCart", JSON.stringify(producToSave));
