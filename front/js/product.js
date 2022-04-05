@@ -3,12 +3,12 @@ var urlParams = new URLSearchParams(location.search);
 let kanapIndex = urlParams.get('id');
 const url = `http://127.0.1:3000/api/products/${kanapIndex}`;
 var items = []
+//Appel de l'api 
 fetch(url)
     .then(function (response) {
 
         return response.json();
     })
-
     .then(function (data) {
         kanapImg.innerHTML = ""
         let descriptionKanap = document.getElementById('description');
@@ -31,7 +31,7 @@ fetch(url)
 
         document.getElementById('addToCart').addEventListener('click', ajoutPanier);
 
-
+       //Création
         function ajoutPanier() {
 
             let colorValue = document.getElementById("colors").value;
@@ -60,10 +60,10 @@ fetch(url)
                     }
                     // On créer un tableau vide
                     let producToSave = [];
-                    let retrievedObjectNumbers=Object.keys(retrievedObject).length;
+                    let retrievedObjectNumbers=retrievedObject.length;
                     // Si retrievedObjectNumbers est inferieur a zero 
                     if (retrievedObjectNumbers>0) {
-                    
+                        var updateCart=false;
                         for (let i = 0; i < retrievedObjectNumbers; i++) {
                             let produit=retrievedObject[i]
                             //si le produit
@@ -71,18 +71,20 @@ fetch(url)
                             if ((produit.id == productCart.id) && (produit.color == productCart.color)) {
                                 productCart.quantity=parseInt(productCart.quantity) + parseInt(produit.quantity);
                                 producToSave.push(productCart);
-                        
+                                updateCart=true;
                             }
                             else {
 
                                 producToSave.push(produit);
-                                
+
                             }
-
+                            
                         }
-
+                        if(updateCart==false){producToSave.push(productCart)}
 
                     }else{producToSave.push(productCart)};
+
+                    
                     localStorage.setItem("productCart", JSON.stringify(producToSave));
 
 
@@ -99,9 +101,5 @@ fetch(url)
         console.log('error API');
         alert('Le serveur est indisponible pour le moment');
     })
-
-
-
-
 
 
