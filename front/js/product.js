@@ -31,66 +31,78 @@ fetch(url)
 
         document.getElementById('addToCart').addEventListener('click', ajoutPanier);
 
-       //Création
-        function ajoutPanier() {
 
+        //Création d'une fonction qui permet d'ajouter les produits au panier
+        function ajoutPanier() {
+           //Création de deux variable qui stock les valeur de la couleur et de la quantité
             let colorValue = document.getElementById("colors").value;
             let itemQuantity = document.getElementById("quantity").value;
+            //Création d'une variable avec l'id , la couleur et la quantié des produits 
             var productCart = { id: data._id, color: colorValue, quantity: itemQuantity };
-            //Si la quantité est inférieur a zéro
-
+            //Si la quantité est inférieur ou égal à zero affiché le message suivant 
             if (itemQuantity <= 0) {
                 alert('La quantité dois être strictement supérieur a zéro');
             }
+            //Sinon vérifié la couleur
             else {
-                //Si la couleur est vide 
+                //Si la couleur est vide alors affiché le message suivant
                 if (colorValue == "") {
                     alert('La couleur doit être choisis');
 
                 }
+                //Sinon créer 2 variable 
                 else {
-
-                    //Dans le cas contraire si tout fonctionne , récupérer du localStorage le produit dont on a besoin
+                    //une qui récupere le string JSON
                     var jsonString = localStorage.getItem("productCart");
+                    //cette variable re-parse le JSON en Objet JS
                     var retrievedObject = JSON.parse(jsonString);
-                    // Si le tableau n'est pas vide , le vidé;
+                    // Si le retrievedObject est égale a zero ou est indéfini , crée un tableau
                     if (!retrievedObject || retrievedObject === 0) {
                         retrievedObject = [];
 
                     }
-                    // On créer un tableau vide
+                    // créer un tableau vide pour stocker le localStorage
                     let producToSave = [];
-                    let retrievedObjectNumbers=retrievedObject.length;
-                    // Si retrievedObjectNumbers est inferieur a zero 
-                    if (retrievedObjectNumbers>0) {
-                        var updateCart=false;
+                    // Variablé créé pour stocker la longueur 
+                    let retrievedObjectNumbers = retrievedObject.length;
+                    // Si retrievedObjectNumbers est inferieur a zero
+                    if (retrievedObjectNumbers > 0) {
+                        var updateCart = false;
+                        //créé  une boucle 
                         for (let i = 0; i < retrievedObjectNumbers; i++) {
-                            let produit=retrievedObject[i]
-                            //si le produit
-                           
+                            //Stockage de retrieve oBject 
+                            let produit = retrievedObject[i]
                             if ((produit.id == productCart.id) && (produit.color == productCart.color)) {
-                                productCart.quantity=parseInt(productCart.quantity) + parseInt(produit.quantity);
+                                productCart.quantity = parseInt(productCart.quantity) + parseInt(produit.quantity);
                                 producToSave.push(productCart);
-                                updateCart=true;
+                                updateCart = true;
                             }
                             else {
 
                                 producToSave.push(produit);
 
                             }
-                            
+
+
                         }
-                        if(updateCart==false){producToSave.push(productCart)}
+                        if (updateCart == false) { producToSave.push(productCart) }
 
-                    }else{producToSave.push(productCart)};
+                    } else { producToSave.push(productCart) };
+                    if (confirm("Votre produit a été ajouté au panier, voulez vous continuer dans votre panier ?") == true) {
+                        window.location.href = "cart.html";
+                    } else {
+                        window.location.href = "index.html";
+                    }
 
-                    
+
                     localStorage.setItem("productCart", JSON.stringify(producToSave));
 
 
                 }
             }
         }
+
+
     })
 
 
