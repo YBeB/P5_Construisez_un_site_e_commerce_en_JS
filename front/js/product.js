@@ -38,7 +38,7 @@ fetch(url)
             let colorValue = document.getElementById("colors").value;
             let itemQuantity = document.getElementById("quantity").value;
             //Création d'une variable avec l'id , la couleur et la quantié des produits 
-            var productCart = { id: data._id, color: colorValue, quantity: itemQuantity };
+            var productCart = { id: data._id, color: colorValue, quantity: itemQuantity};
             //Si la quantité est inférieur ou égal à zero affiché le message suivant 
             if (itemQuantity <= 0) {
                 alert('La quantité dois être strictement supérieur a zéro');
