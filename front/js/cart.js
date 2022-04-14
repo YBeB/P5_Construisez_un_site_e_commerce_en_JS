@@ -10,9 +10,9 @@ function insideCart() {
   else {
     //On vide la section cart__items
     itemCart.innerHTML = "";
-    addProduct.forEach(productI => {
-      // créée une variable productId pour stocker l'ID de productI.id(c'est a dire l'id du produit)
-      let productId = productI.id;
+    addProduct.forEach(productInCart => {
+      // créée une variable productId pour stocker l'ID de productInCart.id(c'est a dire l'id du produit)
+      let productId = productInCart.id;
       //On appel l'API avec la correspondance a l'id
       fetch(`http://localhost:3000/api/products/${productId}`)
         .then(function (response) {
@@ -21,11 +21,13 @@ function insideCart() {
         .then(function (data) {
           //On crée une variable pour stocker tout les élément situé dans le localstorage et les élements manquant qu'on récupere depuis l'API
           let product = {
-            'color': productI.color,
-            'quantity': parseInt(productI.quantity),'name': data.name,'price': data.price,'imgUrl': data.imageUrl,'id': productId,
+            'color': productInCart.color,
+            'quantity': parseInt(productInCart.quantity),'name': data.name,'price': data.price,'imgUrl': data.imageUrl,'id': productId,
           };
           //On multiplie au préalable pour faire le prix total d'un canapé
-          product.price=product.price*product.quantity
+          product.price=product.price*product.quantity;
+          let idQuantite=product.color+"_"+product._id;
+      
           //On remplis cart__items avec la variable crée avant pour completer l'affichage du tableau récapitulatif
           itemCart.innerHTML += ` <article class="cart__item" data-id="${product._id}" data-color="${product.color}">
   <div class="cart__item__img">
@@ -40,14 +42,16 @@ function insideCart() {
     <div class="cart__item__content__settings">
       <div class="cart__item__content__settings__quantity">
         <p>Qté : </p>
-        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${product.quantity}">
+        <input id="${idQuantite}" type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${product.quantity}">
       </div>
       <div class="cart__item__content__settings__delete" data-id="${product._id}" data-color="${product.color}">
         <p class="deleteItem">Supprimer</p>
       </div>
     </div>
   </div>
-</article> `
+</article> `;
+document.getElementById(idQuantite).addEventListener('change',changeValue(idQuantite));
+
         })
     });
 
@@ -55,12 +59,13 @@ function insideCart() {
   }
 
 }
+
 //On Appel la fonction pour que tout ca fonctionne
 insideCart();
-console.log(addProduct)
 //On crée une fonction qui permet de pouvoir changer la quantitée
-function changeValue(){
-  quantityinput.addEventListener('change',function(){console.log('test')})
+function changeValue(id){
+let input=document.getElementById(id);
+console.log("Nouvelle quantité "+input.Value)
 
 
 }
