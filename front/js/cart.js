@@ -65,7 +65,7 @@ const calculPrixTotal = () => {
   //On attribut une valeur numérique de départ(donc 0) a total et qteTotal
     let total = 0;
     let qteTotal = 0;
-    //On tranform le JSON en valeur Javascript
+    //On tranforme le JSON en valeur Javascript
     productSaved = JSON.parse(localStorage.getItem('productCart'));
     productSaved.forEach(oneProduct => {
         let productId = oneProduct.id;
@@ -137,26 +137,36 @@ const changeQuantite = () => {
         })
     })
 }
-
+//Fonction pour supprimer un produit du panier
 function removeProduct() {
+    //On selectionne deleteItem dans le DOM
     const deleteBtns = document.querySelectorAll('.deleteItem');
     deleteBtns.forEach(btn => {
+        //On ajout l'evenement click suivi du callBack
         btn.addEventListener('click', () => {
+            //Ici même procéder que sur le changement de la quantité , on selectionne l'élement le plus proche
             const articleToRemove = btn.closest('article');
+             //On récuperer l'atribut data-id et data-color, avec getAttribute
             const idProductToDelete = articleToRemove.getAttribute('data-id');
             const colorProductToDelete = articleToRemove.getAttribute('data-color');
+            //On tranforme le JSON en valeur Javascript
             productSaved = JSON.parse(localStorage.getItem('productCart'));
             let finalProductSave = [];
             productSaved.forEach(product => {
+                //Si le produit égale a l'id du produit dans data-id ou la couleur et égale la couleur du produit dans data-color
                 if (product.id === idProductToDelete && product.color === colorProductToDelete) {
+                    //Alors on supprime l'article désigné
                     articleToRemove.remove();
                 } else {
+                    //Autrement rien ne change 
                     finalProductSave.push(product);
                 }
             });
             console.log(finalProductSave);
+            //On met a jour les valeurs  localStorage dans le tableau crée
             localStorage.setItem(('productCart'), JSON.stringify(finalProductSave));
             productSaved = JSON.parse(localStorage.getItem('productCart'));
+            //On recalcule le prix total
             calculPrixTotal();
         });
     })
