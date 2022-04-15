@@ -76,10 +76,14 @@ const calculPrixTotal = () => {
               //On multiplie le prix et la quantité et on addtionne avec le total
                 total += data.price * parseInt(oneProduct.quantity);
                 try {
+                    //Ici , on capture dans le dom "productPrice" on l'addition avec productId(enJS) et on le couple avec la couleur égale au prix fois 
+                    //la quantite(on le transforme en chiff) plus l'insigne euro
                     document.getElementById('productPrice_' + productId + "_" + oneProduct.color).innerHTML = (data.price * parseInt(oneProduct.quantity)) + " €";
                 } catch (error) { console.log(error) }
                 qteTotal += parseInt(oneProduct.quantity);
+                //On insére le prix total dans le dom 
                 document.getElementById('totalPrice').innerHTML = total;
+                //ici la quantité total
                 document.getElementById('totalQuantity').innerHTML = qteTotal;
             })
     });
