@@ -1,23 +1,30 @@
 const cartItems = document.getElementById("cart__items");
 var productSaved = JSON.parse(localStorage.getItem('productCart'));
-
+//On crée la fonction qui affiche les produits , la quantité et le prix total de chaque produit
 function panierDisplay() {
+    //Si le localStorage est null ou vide
     if (productSaved == null || productSaved == [] || productSaved.length < 1) {
+        //Alors on affiche un panier vide
         cartItems.innerHTML = 'Votre panier est vide.';
         calculPrixTotal();
+        //On met un addEventListener sur le bouton order qui affiche une fonction qui alerte l'utilisateur que le panier est vide donc non validable
         document.getElementById('order').addEventListener('click', function(e) {
             e.preventDefault();
             alert('Votre panier est vide.');
         })
     } else {
+        //On vide le contenue de la section cart__items
         cartItems.innerHTML = "";
+        //On donne une valeur numerique de départ a counter
         let counter = 0;
         productSaved.forEach(oneProduct => {
             let productId = oneProduct.id;
+            //On fait une promesse pour appelé l'API
             fetch(`http://localhost:3000/api/products/${productId}`)
                 .then(function(response) {
                     return response.json();
                 }).then(function(resolve) {
+                    //On crée une variable product et lui attribut la couleur ,l'id et la quantité contenu dans le localStorage et on complete la suite grace a l'API
                     let product = {
                         'color': oneProduct.color,
                         'quantity': parseInt(oneProduct.quantity),
@@ -26,6 +33,7 @@ function panierDisplay() {
                         'imgUrl': resolve.imageUrl,
                         '_id': productId,
                     };
+                    //On remplis la section cart__items et remplis avec la variable précédemment créé
                     cartItems.innerHTML += `
                     <article class="cart__item" data-id="${product._id}" data-color="${product.color}">
                     <div class="cart__item__img">
@@ -50,8 +58,11 @@ function panierDisplay() {
                 </article>`;
                     counter++;
                     return counter;
+                    //On créé un autre then avec une fonction
                 }).then(function(counter) {
+                    //Si la variable counter (valeur numérique) est strictement  égale a la taille du tableau du localStorage
                     if (counter == productSaved.length) {
+                        //alors on déclare ces 3 fonctions
                         calculPrixTotal();
                         changeQuantite();
                         removeProduct();
@@ -171,7 +182,7 @@ function removeProduct() {
         });
     })
 }
-
+//On déclare la fonction panierDisplay pour qu'elle fonctionne
 panierDisplay();
 
 
