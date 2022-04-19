@@ -109,7 +109,7 @@ const changeQuantite = () => {
     const quantityInputs = document.querySelectorAll('.itemQuantity');
     //On execute la fonction qu'on vas crée pour chaque element du tableau avec forEach
     quantityInputs.forEach(input => {
-        //On luit attribut un event Listener avec l'attribut change en tant qu'event pour actionner le callback si un changement au niveau de l'input est fait
+        //On lui attribut un event Listener avec l'attribut change en tant qu'event pour actionner le callback si un changement au niveau de l'input est fait
         input.addEventListener('change', () => {
             //On crée une constante avec closest a l'interieur , ca permet de selectionner l'element le plus proche
             const articleToRemove = input.closest('article');
@@ -184,26 +184,47 @@ function removeProduct() {
 }
 //On appel la fonction panierDisplay pour qu'elle fonctionne
 panierDisplay();
-const InfirstName = document.getElementById("firstName");
-const InlastName = document.getElementById("lastName");
-const Inaddress = document.getElementById("address");
-const Incity = document.getElementById("city");
-const InEmail = document.getElementById("email");
 
 
+let InfirstName = document.getElementById("firstName");
+let InlastName = document.getElementById("lastName");
+let Inaddress = document.getElementById("address");
+let Incity = document.getElementById("city");
+let InEmail = document.getElementById("email");
+
+
+//On créé une variable qui permet de vérifier les champs et d'indiquer une erreur si les champs sont mal remplis
 function formValidator() {
-    const regexEmail = new RegExp('/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/')
-    const regexAdress = new RegExp('\d{1,5}\s\w.\s(\b\w*\b\s){1,2}\w*\.');
-    const regexfirstName = new RegExp('/^(?=.{1,50}$)[a-z]+(?:[_.\s][a-z]+)*$/i');
-    const regexLastName = new RegExp('/^(?=.{1,50}$)[a-z]+(?:[_.\s][a-z]+)*$/i');
-    const regexCity = new RegExp('/^(?=.{1,50}$)[a-z]+(?:[_.\s][a-z]+)*$/i')
-    const form = document.querySelector('cart__order__form');
+    //On créé des Regex spécifique 
+    let regexEmail = new RegExp('^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
+    let regexAdress = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+    let regexName = new RegExp("^[a-zA-Z ,.'-]+$");
+    //On séléctionne le formulaire dans le dom
+    const form = document.querySelector('.cart__order__form');
+    ////On lui attribut un event Listener avec l'attribut change qui appel les fonction suivant et qui active le check de chaque champs
+    form.firstName.addEventListener('change', function () {
+        firstNameCheck(this)
+    });
 
+    form.lastName.addEventListener('change', function () {
+        lastNameCheck(this)
+    });
 
+    form.address.addEventListener('change', function () {
+        adressCheck(this)
+    });
 
+    form.city.addEventListener('change', function () {
+        cityCheck(this)
+    });
+    
+    form.email.addEventListener('change', function () {
+        emailCheck(this)
+    });
+     //Variable qui contient une fonction qui permet de verifier via le regex si le champs est bien remplis avec les bon caractéres et affiche un message d'erreur sinon
     var firstNameCheck = function (InfirstName) {
         let errorFirstName = document.getElementById("firstNameErrorMsg")
-        if (regexfirstName.test(InfirstName.value)) {
+        if (regexName.test(InfirstName.value)) {
             errorFirstName.innerHTML = '';
         }
         else {
@@ -215,7 +236,7 @@ function formValidator() {
 
     var lastNameCheck = function (InlastName) {
         let errorLastName = document.getElementById("lastNameErrorMsg")
-        if (regexLastName.test(InlastName.value)) {
+        if (regexName.test(InlastName.value)) {
             errorLastName.innerHTML = '';
         }
         else { errorLastName.innerHTML = 'Veuillez entrer votre nom (uniquement en lettre)' }
@@ -231,7 +252,7 @@ function formValidator() {
 
     var cityCheck = function (Incity) {
         let errorCity = document.getElementById("cityErrorMsg");
-        if (regexCity.test(Incity.value)) {
+        if (regexName.test(Incity.value)) {
             errorCity.innerHTML = ''
         }
         else { errorCity.innerHTML = 'Veuillez entrer votre ville (ex:  Paris)' }
@@ -247,4 +268,4 @@ function formValidator() {
     }
 
 }
-
+formValidator()
