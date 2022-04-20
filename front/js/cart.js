@@ -198,35 +198,38 @@ function formValidator() {
     //On créé des Regex spécifique 
     let regexEmail = new RegExp('^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
     let regexAdress = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+    let regexCity = new RegExp("^[a-zA-Z ,.'-]+$")
     let regexName = new RegExp("^[a-zA-Z ,.'-]+$");
+    let regexLastname = new RegExp("^[a-zA-Z ,.'-]+$");
     //On séléctionne le formulaire dans le dom
     const form = document.querySelector('.cart__order__form');
-    ////On lui attribut un event Listener avec l'attribut change qui appel les fonction suivant et qui active le check de chaque champs
-    form.firstName.addEventListener('change', function () {
+    ////On lui attribut un event Listener avec l'attribut change qui appel les fonction suivante et qui active le check de chaque champs
+    InfirstName.addEventListener('change', function () {
         firstNameCheck(this)
     });
 
-    form.lastName.addEventListener('change', function () {
+    InlastName.addEventListener('change', function () {
         lastNameCheck(this)
     });
 
-    form.address.addEventListener('change', function () {
+    Inaddress.addEventListener('change', function () {
         adressCheck(this)
     });
 
-    form.city.addEventListener('change', function () {
+    Incity.addEventListener('change', function () {
         cityCheck(this)
     });
-    
-    form.email.addEventListener('change', function () {
+
+    InEmail.addEventListener('change', function () {
         emailCheck(this)
     });
-     //Variable qui contient une fonction qui permet de verifier via le regex si le champs est bien remplis avec les bon caractéres et affiche un message d'erreur sinon
+    //Variable qui contient une fonction qui permet de verifier via le regex si le champs est bien remplis avec les bon caractéres 
     var firstNameCheck = function (InfirstName) {
         let errorFirstName = document.getElementById("firstNameErrorMsg")
         if (regexName.test(InfirstName.value)) {
             errorFirstName.innerHTML = '';
         }
+        //Sinon il affiche un message d'erreur dans le champs html error
         else {
             errorFirstName.innerHTML = 'Veuillez entrer votre prénom (uniquement en lettre)'
 
@@ -234,15 +237,15 @@ function formValidator() {
 
     };
 
-    var lastNameCheck = function (InlastName) {
+    function lastNameCheck(InlastName) {
         let errorLastName = document.getElementById("lastNameErrorMsg")
-        if (regexName.test(InlastName.value)) {
+        if (regexLastname.test(InlastName.value)) {
             errorLastName.innerHTML = '';
         }
         else { errorLastName.innerHTML = 'Veuillez entrer votre nom (uniquement en lettre)' }
     }
 
-    var adressCheck = function (Inaddress) {
+    function adressCheck(Inaddress) {
         let errorAdress = document.getElementById("addressErrorMsg");
         if (regexAdress.test(Inaddress.value)) {
             errorAdress.innerHTML = ''
@@ -250,16 +253,16 @@ function formValidator() {
         else { errorAdress.innerHTML = 'Veuillez entrer votre adresse (ex:12 Rue Dupont)' }
     }
 
-    var cityCheck = function (Incity) {
+    function cityCheck(Incity) {
         let errorCity = document.getElementById("cityErrorMsg");
-        if (regexName.test(Incity.value)) {
+        if (regexCity.test(Incity.value)) {
             errorCity.innerHTML = ''
         }
         else { errorCity.innerHTML = 'Veuillez entrer votre ville (ex:  Paris)' }
     }
 
 
-    var emailCheck = function (InEmail) {
+    function emailCheck(InEmail) {
         let errorEmail = document.getElementById("emailErrorMsg");
         if (regexEmail.test(InEmail.value)) {
             errorEmail.innerHTML = ''
@@ -269,3 +272,4 @@ function formValidator() {
 
 }
 formValidator()
+
