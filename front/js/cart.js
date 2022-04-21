@@ -186,11 +186,11 @@ function removeProduct() {
 panierDisplay();
 
 
-let InfirstName = document.getElementById("firstName");
-let InlastName = document.getElementById("lastName");
-let Inaddress = document.getElementById("address");
-let Incity = document.getElementById("city");
-let InEmail = document.getElementById("email");
+let inFirstName = document.getElementById("firstName");
+let inLastName = document.getElementById("lastName");
+let inAddress = document.getElementById("address");
+let inCity = document.getElementById("city");
+let inEmail = document.getElementById("email");
 
 
 //On créé une variable qui permet de vérifier les champs et d'indiquer une erreur si les champs sont mal remplis
@@ -204,29 +204,29 @@ function formValidator() {
     //On séléctionne le formulaire dans le dom
     const form = document.querySelector('.cart__order__form');
     ////On lui attribut un event Listener avec l'attribut change qui appel les fonction suivante et qui active le check de chaque champs
-    InfirstName.addEventListener('change', function () {
+    inFirstName.addEventListener('change', function () {
         firstNameCheck(this)
     });
 
-    InlastName.addEventListener('change', function () {
+    inLastName.addEventListener('change', function () {
         lastNameCheck(this)
     });
 
-    Inaddress.addEventListener('change', function () {
+    inAddress.addEventListener('change', function () {
         adressCheck(this)
     });
 
-    Incity.addEventListener('change', function () {
+    inCity.addEventListener('change', function () {
         cityCheck(this)
     });
 
-    InEmail.addEventListener('change', function () {
+    inEmail.addEventListener('change', function () {
         emailCheck(this)
     });
     //Variable qui contient une fonction qui permet de verifier via le regex si le champs est bien remplis avec les bon caractéres 
-    var firstNameCheck = function (InfirstName) {
+    var firstNameCheck = function (inFirstName) {
         let errorFirstName = document.getElementById("firstNameErrorMsg")
-        if (regexName.test(InfirstName.value)) {
+        if (regexName.test(inFirstName.value)) {
             errorFirstName.innerHTML = '';
         }
         //Sinon il affiche un message d'erreur dans le champs html error
@@ -237,34 +237,34 @@ function formValidator() {
 
     };
 
-    function lastNameCheck(InlastName) {
+    function lastNameCheck(inLastName) {
         let errorLastName = document.getElementById("lastNameErrorMsg")
-        if (regexLastname.test(InlastName.value)) {
+        if (regexLastname.test(inLastName.value)) {
             errorLastName.innerHTML = '';
         }
         else { errorLastName.innerHTML = 'Veuillez entrer votre nom (uniquement en lettre)' }
     }
 
-    function adressCheck(Inaddress) {
+    function adressCheck(inAddress) {
         let errorAdress = document.getElementById("addressErrorMsg");
-        if (regexAdress.test(Inaddress.value)) {
+        if (regexAdress.test(inAddress.value)) {
             errorAdress.innerHTML = ''
         }
         else { errorAdress.innerHTML = 'Veuillez entrer votre adresse (ex:12 Rue Dupont)' }
     }
 
-    function cityCheck(Incity) {
+    function cityCheck(inCity) {
         let errorCity = document.getElementById("cityErrorMsg");
-        if (regexCity.test(Incity.value)) {
+        if (regexCity.test(inCity.value)) {
             errorCity.innerHTML = ''
         }
         else { errorCity.innerHTML = 'Veuillez entrer votre ville (ex:  Paris)' }
     }
 
 
-    function emailCheck(InEmail) {
+    function emailCheck(inEmail) {
         let errorEmail = document.getElementById("emailErrorMsg");
-        if (regexEmail.test(InEmail.value)) {
+        if (regexEmail.test(inEmail.value)) {
             errorEmail.innerHTML = ''
         }
         else { errorEmail.innerHTML = 'Veuillez entrer votre email (ex:Jean.Dupont@live.fr)' }
@@ -273,3 +273,46 @@ function formValidator() {
 }
 formValidator()
 
+function onTest(){
+
+    document.getElementById("order").addEventListener("click", (e) =>{
+let productFinal = [];
+productFinal.push(productSaved);
+
+
+const order = {
+    contact : {
+        firstName: inFirstName.value,
+        lastName: inLastName.value,
+        address: inAddress.value,
+        city: inCity.value,
+        email: inEmail.value,
+    },
+    products: productFinal,
+} ;
+
+const options = {
+    method: "POST",
+    body: JSON.stringify(order),
+    headers: {
+        'Accept': 'application/json', 
+        "Content-Type": "application/json" },
+  };
+
+  fetch("http://localhost:3000/api/products/order", options)
+  .then((response) => response.json())
+  .then((data) => {
+    localStorage.clear();
+    console.log(data)
+    localStorage.setItem("orderId", data.orderId);
+    
+  })
+  .catch((err) => {
+    alert("Erreur survenue : " + err);
+  });
+
+})
+
+}
+
+onTest()
