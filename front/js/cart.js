@@ -203,7 +203,7 @@ function formValidator() {
     let regexLastname = new RegExp("^[a-zA-Z ,.'-]+$");
     //On séléctionne le formulaire dans le dom
     const form = document.querySelector('.cart__order__form');
-    ////On lui attribut un event Listener avec l'attribut change qui appel les fonction suivante et qui active le check de chaque champs
+    ////On lui attribut un event Listener avec l'attribut "change" qui appel les fonction suivante et qui active le check de chaque champs
     inFirstName.addEventListener('change', function () {
         firstNameCheck(this)
     });
@@ -232,7 +232,7 @@ function formValidator() {
         //Sinon il affiche un message d'erreur dans le champs html error
         else {
             errorFirstName.innerHTML = 'Veuillez entrer votre prénom (uniquement en lettre)'
-
+        
         }
 
     };
@@ -303,7 +303,6 @@ const options = {
   .then((response) => response.json())
   .then((data) => {
     localStorage.clear();
-    console.log(data)
     localStorage.setItem("orderId", data.orderId);
     
   })
