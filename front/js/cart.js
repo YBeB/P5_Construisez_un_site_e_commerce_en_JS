@@ -193,7 +193,7 @@ let inEmail = document.getElementById("email");
 
 
 //On créé une variable qui permet de vérifier les champs et d'indiquer une erreur si les champs sont mal remplis
-function formValidator() {
+function formCheck() {
     //On créé des Regex spécifique 
     let regexEmail = new RegExp('^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
     let regexAdress = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
@@ -270,9 +270,9 @@ function formValidator() {
     }
 
 }
-formValidator()
+formCheck()
 
-function onTest(){
+function formValidator(){
     
 document.getElementById("order").addEventListener("click", (e) =>{
 let productFinal = [];
@@ -315,5 +315,5 @@ const options = {
 
 }
 
-onTest();
+formValidator();
 panierDisplay();
