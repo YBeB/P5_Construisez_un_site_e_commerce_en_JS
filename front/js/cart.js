@@ -182,8 +182,7 @@ function removeProduct() {
         });
     })
 }
-//On appel la fonction panierDisplay pour qu'elle fonctionne
-panierDisplay();
+
 
 
 let inFirstName = document.getElementById("firstName");
@@ -274,10 +273,11 @@ function formValidator() {
 formValidator()
 
 function onTest(){
-
-    document.getElementById("order").addEventListener("click", (e) =>{
+    
+document.getElementById("order").addEventListener("click", (e) =>{
 let productFinal = [];
-productFinal.push(productSaved);
+for (let i in productSaved){
+productFinal.push(productSaved[i].id);}
 
 
 const order = {
@@ -299,12 +299,13 @@ const options = {
         "Content-Type": "application/json" },
   };
 
-  fetch("http://localhost:3000/api/products/order", options)
+  fetch("http://127.0.1:3000/api/products/order", options)
   .then((response) => response.json())
   .then((data) => {
+    console.log(data);
     localStorage.clear();
     localStorage.setItem("orderId", data.orderId);
-    
+    document.location.href = "confirmation.html";
   })
   .catch((err) => {
     alert("Erreur survenue : " + err);
@@ -314,4 +315,5 @@ const options = {
 
 }
 
-onTest()
+onTest();
+panierDisplay();
