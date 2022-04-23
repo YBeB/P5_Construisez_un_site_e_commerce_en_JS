@@ -272,6 +272,7 @@ function formCheck() {
 }
 formCheck()
 
+// Création d'une 
 function formValidator(){
     
 document.getElementById("order").addEventListener("click", (e) =>{
@@ -304,8 +305,7 @@ const options = {
   .then((data) => {
     console.log(data);
     localStorage.clear();
-    localStorage.setItem("orderId", data.orderId);
-    document.location.href = "confirmation.html";
+    document.location.href = "confirmation.html?orderId="+data.orderId;
   })
   .catch((err) => {
     alert("Erreur survenue : " + err);
