@@ -272,15 +272,17 @@ function formCheck() {
 }
 formCheck()
 
-// Création d'une 
+
 function formValidator(){
-    
+//On crée un addEventListener au click la fonction suivante se déclenche
 document.getElementById("order").addEventListener("click", (e) =>{
+//Création d'un tableau vide
 let productFinal = [];
+//On crée l'array depuis productSaved(localStorage)
 for (let i in productSaved){
 productFinal.push(productSaved[i].id);}
 
-
+//on Créé une constante ou contenant l'objet contact(On fait bien attention a mettre) et products (qui correspond au tableau productFinal)
 const order = {
     contact : {
         firstName: inFirstName.value,
@@ -291,7 +293,7 @@ const order = {
     },
     products: productFinal,
 } ;
-
+//On créé une constante qui contient la methode Post pour l'utiliser dans l'API
 const options = {
     method: "POST",
     body: JSON.stringify(order),
@@ -299,12 +301,13 @@ const options = {
         'Accept': 'application/json', 
         "Content-Type": "application/json" },
   };
-
+//On fait l'appel a L'api pour effectuer une requete de type POST avec la constante options
   fetch("http://127.0.1:3000/api/products/order", options)
   .then((response) => response.json())
   .then((data) => {
     console.log(data);
     localStorage.clear();
+    //Utilisation de l'URL pour affiché l'ID du produit (Même méthode que sur product.js)
     document.location.href = "confirmation.html?orderId="+data.orderId;
   })
   .catch((err) => {
